@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bitstamp vaja</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Bitstamp Tradeview</h1>
+  </nav>
+  <div id="app">
+    <div class="dropdown">
+      <div class="dropbtn">
+        <span class="font-weight-bold">{{get_name}}</span><span>{{individualValue}} {{ lastPrice.last }}</span>
+      </div>
+        <div class="dropdown-content">
+          <div v-for="currency_pair in cryptos" :id="[currency_pair.name]">
+            <button class="btnPairs" :value = "[currency_pair.name]" @click="select_crypto">{{currency_pair.name}}</button>
+          </div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="col-7 orderBookScroll">
+          <div class="orderBookNav my-2 pl-2">
+            <h2>Order Book</h2>
+          </div>
+          <div class="row">
+            <div class="col-6 middle">
+              <h5><span class="float-left">Amount</span><span>BID</span></h5>
+              <div v-for="order in orderBook">
+                <div v-for="order in orderBook.bids">
+                  <span class="greenOrder">{{ order[0] }}</span>
+                  <span class="float-left">{{ order[1] }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <h5>ASK <span class="float-right">Amount</span></h5>
+              <div v-for="order in orderBook">
+                <div v-for="order in orderBook.asks">
+                  <span class="redOrder">{{ order[0] }}</span>
+                  <span class="float-right">{{ order[1] }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 py-2">
+          <div v-if="sellBuy == 'BUY'">
+            <div class="buy-sell-top buy-sell-top-green">
+              <h6> NEW ORDER <button @click="sellBuyComponent" value="SELL">SELL</button><button class="green" value="BUY" @click="sellBuyComponent"><span>BUY</span></button></h6>
+            </div>
+            <input class="my-3" placeholder="I want to spend" type="number"><span>{{individualValue}}</span>
+            <button class="btn btn-success btn-lg btn-block">{{sellBuy}}</button>
+          </div>
+          <div v-else>
+            <div class="buy-sell-top buy-sell-top-red">
+              <h6> NEW ORDER <button class="red" @click="sellBuyComponent" value="SELL"><span>SELL</span></button><button value="BUY" @click="sellBuyComponent">BUY</button></h6>
+            </div>
+            <input class="my-3" placeholder="I want to sell" type="number"><span>{{individualValue}}</span>
+            <button class="btn btn-danger btn-lg btn-block">{{sellBuy}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer>
+  <div class="text-center p-3">
+    © Bitstamp Tradeview
+  </div>  
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
